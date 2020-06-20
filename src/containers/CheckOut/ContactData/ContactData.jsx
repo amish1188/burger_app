@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
@@ -70,7 +71,8 @@ class ContactData extends Component {
                             {value: 'fastest', displayValue: 'Fastest'},
                             {value: 'normal', displayValue: 'Normal'},
                         ]
-                    }
+                    },
+                    valid:true
                 }
             }
         
@@ -78,10 +80,13 @@ class ContactData extends Component {
 
      checkValidity = (value, rules) => {
         let isValid = false;
+        
+        if(!rules){return true}
+
         if(rules.required){
             isValid = value.trim() !== '';
+            
         }
-
         return isValid;
      }
 
@@ -93,8 +98,10 @@ class ContactData extends Component {
              ...updatedOrderForm[id]
          }
          updatedElement.value = event.target.value;
-         updatedElement.validation.valid = this.checkValidity(updatedElement.value, updatedElement.validation.required);
-         updatedElement.validation.touched = true;
+         updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validation);
+         if(updatedElement.required){
+             updatedElement.validation.touched = true;
+         }
          updatedOrderForm[id] = updatedElement
         
 
@@ -117,7 +124,7 @@ class ContactData extends Component {
 
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.price,
+            price: this.props.totalPrice,
             orderData: formData
         }
         axios.post('/orders.json', order)
@@ -140,7 +147,6 @@ class ContactData extends Component {
                 })
             
         }
-        console.log(formElementsArray);
         let form = (
             <form onSubmit={this.orderHandler}>
                 {formElementsArray.map(formElement =>(
@@ -172,4 +178,11 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(ContactData);
