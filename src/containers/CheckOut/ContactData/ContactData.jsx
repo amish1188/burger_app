@@ -73,7 +73,8 @@ class ContactData extends Component {
                             {value: 'normal', displayValue: 'Normal'},
                         ]
                     },
-                    valid:true
+                    value: 'fastest',
+                    valid: true
                 }
             }
         
@@ -187,4 +188,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

@@ -28,7 +28,6 @@ const logger = store => {
 
 const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)
-
 ));
 
 const app = (
