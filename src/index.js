@@ -1,3 +1,5 @@
+//maybe add environment variables
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -18,15 +20,6 @@ const rootReducer = combineReducers({
   order: orderReducer,
   auth: authReducer
 })
-
-const logger = store => {
-  return next => {
-      return action => {
-          const result = next(action);
-          return result;
-      }
-  }
-}
 
 const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)

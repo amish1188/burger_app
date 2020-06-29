@@ -21,7 +21,7 @@ class App extends Component {
         let routes = (
             <Switch>
                 <Route  path="/" exact component={BurgerBuilder}/>
-                
+                <Route  path="/auth" component={Auth}/>
                 <Redirect to= '/' />
             </Switch>
         );
