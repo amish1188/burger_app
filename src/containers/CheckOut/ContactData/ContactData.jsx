@@ -8,6 +8,7 @@ import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../../hoc/withErrorHandler/WithErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject } from '../../../shared/utility'
 
 class ContactData extends Component {
     state = { 
@@ -93,18 +94,15 @@ class ContactData extends Component {
      }
 
      inputChangeHandler = (event, id) => {
-         const updatedOrderForm = {
-             ...this.state.orderForm
-         }
-         const updatedElement = {
-             ...updatedOrderForm[id]
-         }
-         updatedElement.value = event.target.value;
-         updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validation);
-         if(updatedElement.required){
-             updatedElement.validation.touched = true;
-         }
-         updatedOrderForm[id] = updatedElement
+         const updatedElement = updateObject(this.state.orderForm[id], {
+             value: event.target.value,
+             valid: this.checkValidity(event.target.value, this.state.orderForm[id].validation),
+             touched: true
+         })
+        
+         const updatedOrderForm = updateObject(this.state.orderForm, {
+             [id]: updatedElement
+         })
         
 
          let formIsValid = true;
@@ -126,7 +124,8 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
-            orderData: formData
+            orderData: formData,
+            userId: this.props.userId
         }
 
         this.props.onOrderBurger(this.props.token, order);
@@ -179,7 +178,8 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 
