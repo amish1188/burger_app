@@ -24,9 +24,9 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)
 ));
-
+//{/* provider always wraps everything*/}
 const app = (
-  <Provider store={store}> {/* provider always wraps everything*/}
+  <Provider store={store}> 
     <BrowserRouter>
       <App />
     </BrowserRouter>
