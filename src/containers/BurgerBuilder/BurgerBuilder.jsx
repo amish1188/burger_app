@@ -13,7 +13,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/WithErrorHandler';
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     //OLDER VERSION OF HAVING CONSTRUCTOR IN CLASS COMPONENT
     // constructor(props){
     //     super(props);
@@ -100,7 +100,7 @@ class BurgerBuilder extends Component {
                         removeIngredientHandler = {this.props.onRemoveIngredient} 
                         disabledInfo={disabledInfo}
                         isAuth={this.props.isAuthenticated}
-                        price={(this.props.totalPrice).toFixed(2)}
+                        price={(this.props.totalPrice)/*.toFixed(2)*/}
                         purchaseable={this.updatePurchase(this.props.ingredients)} //call it whenever re-rendered
                         order={this.purchaseHandler}
                     />
@@ -116,7 +116,7 @@ class BurgerBuilder extends Component {
                         ingredients={this.props.ingredients} 
                         continue={this.purchaseContinueHandler}
                         cancel={this.purchaseCancelHandler}
-                        price={(this.props.totalPrice).toFixed(2)}
+                        price={(this.props.totalPrice)/*.toFixed(2)*/}
                     />
                 </Aux>
             )
